@@ -41,11 +41,26 @@ namespace Test.Controllers
             return View("Index", model);
         }
 
-
-
-        public ActionResult FillStudent()
+        public ActionResult Create()
         {
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Student student)
+        {
+            var objStudent = new Student();
+            var cmd = new SqlBuilder();
+            cmd.CommandText = "INSERT INTO Students (FirstName, Age) VALUES (@FirstName, @Age)";
+            cmd.SqlParams = new List<SqlParameter>()
+            {
+                new SqlParameter("@FirstName", student.FirstName),
+                new SqlParameter("@Age", student.Age),
+            };
+            var isInserted = objStudent.Insert(cmd);
+            return RedirectToAction("Index");
+        }
+
     }
 }
