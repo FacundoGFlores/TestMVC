@@ -1,0 +1,22 @@
+﻿@model Test.Models.Student
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>FillStudent</title>
+</head>
+<body>
+    <div>
+       <form action="SaveStudent" method="post">
+           Nombre: <input type="text" name="name" />
+           <input type="submit" value="Enviar" />
+       </form>
+    </div>
+</body>
+</html>
