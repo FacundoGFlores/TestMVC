@@ -62,5 +62,43 @@ namespace Test.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public ActionResult Edit(int id = 0)
+        {
+            var objStudent = new Student();
+            var cmd = new SqlBuilder();
+            cmd.CommandText = "SELECT StudentID, FirstName, Age FROM Students WHERE StudentID = @where";
+            cmd.SqlParams = new List<SqlParameter>()
+            {
+                new SqlParameter("@where", id),
+            };
+            var data = objStudent.Select(cmd);
+            if (data == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                DataRow row = data.Tables[0].Rows[0];
+                Student s = new Student { FirstName = row["FirstName"].ToString(), Age = row.IsNull("Age") ? null : (int?)Convert.ToInt32(row["Age"]) };
+                return View(s);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Student student)
+        {
+            //var objStudent = new Student();
+            //var cmd = new SqlBuilder();
+            //cmd.CommandText = "INSERT INTO Students (FirstName, Age) VALUES (@FirstName, @Age)";
+            //cmd.SqlParams = new List<SqlParameter>()
+            //{
+            //    new SqlParameter("@FirstName", student.FirstName),
+            //    new SqlParameter("@Age", student.Age),
+            //};
+            //var isInserted = objStudent.Insert(cmd);
+            return RedirectToAction("Index");
+        }
     }
 }
