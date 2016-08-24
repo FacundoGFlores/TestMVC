@@ -12,14 +12,36 @@
     <title>Index</title>
 </head>
 <body>
-    <a href="Student/FillStudent">New</a>
-    <div>
-        @foreach (var item in Model){
-            <div>
-                @item.FirstName
-                <hr />
-            </div>
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.StudentID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.StudentID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.StudentID })
+                </td>
+            </tr>
         }
-    </div>
+
+    </table>
 </body>
 </html>

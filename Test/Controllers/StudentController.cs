@@ -25,13 +25,14 @@ namespace Test.Controllers
            
             var objStudent = new Student();
             var cmd = new SqlBuilder();
-            cmd.CommandText = "SELECT FirstName FROM Students";
+            cmd.CommandText = "SELECT StudentID, FirstName FROM Students";
             var data = objStudent.Select(cmd);
 
             foreach (DataRow item in data.Tables[0].Rows)
             {
                 model.Add(new Student
                 {
+                    StudentID = Convert.ToInt32(item["StudentID"]),
                     FirstName = item["FirstName"].ToString()
                 });
             }

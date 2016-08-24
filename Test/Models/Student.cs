@@ -9,6 +9,7 @@ namespace Test.Models
 {
     public class Student: ICrud<ISqlCommand>
     {
+        public int StudentID { get; set; }
         public string FirstName { get; set; }
 
         public bool Insert(ISqlCommand obj)
