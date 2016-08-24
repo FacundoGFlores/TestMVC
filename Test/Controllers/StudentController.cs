@@ -25,7 +25,7 @@ namespace Test.Controllers
            
             var objStudent = new Student();
             var cmd = new SqlBuilder();
-            cmd.CommandText = "SELECT StudentID, FirstName FROM Students";
+            cmd.CommandText = "SELECT StudentID, FirstName, Age FROM Students";
             var data = objStudent.Select(cmd);
 
             foreach (DataRow item in data.Tables[0].Rows)
@@ -33,7 +33,8 @@ namespace Test.Controllers
                 model.Add(new Student
                 {
                     StudentID = Convert.ToInt32(item["StudentID"]),
-                    FirstName = item["FirstName"].ToString()
+                    FirstName = item["FirstName"].ToString(),
+                    Age = item.IsNull("Age") ? null : (int?) Convert.ToInt32(item["Age"])
                 });
             }
     

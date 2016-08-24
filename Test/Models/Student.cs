@@ -11,7 +11,7 @@ namespace Test.Models
     {
         public int StudentID { get; set; }
         public string FirstName { get; set; }
-
+        public int? Age { get; set; }
         public bool Insert(ISqlCommand obj)
         {
             return obj.Run();
