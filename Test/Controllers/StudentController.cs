@@ -7,6 +7,7 @@ using Test.Models;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+using Test.Libs.CRUD;
 
 namespace Test.Controllers
 {
@@ -14,50 +15,31 @@ namespace Test.Controllers
     {
         //
         // GET: /Student/
-
         static private string GetConnectionString()
         {
             return ConfigurationManager.ConnectionStrings["TestMVCConnectionString"].ConnectionString;
         }
         public ActionResult Index()
         {
-            string connectionString = GetConnectionString();
             var model = new List<Student>();
+           
+            var objStudent = new Student();
+            var cmd = new SqlBuilder();
+            cmd.CommandText = "SELECT FirstName FROM Students";
+            var data = objStudent.Select(cmd);
 
-            using (SqlConnection con = new SqlConnection(connectionString))
+            foreach (DataRow item in data.Tables[0].Rows)
             {
-                con.Open();
-                using (SqlCommand command = new SqlCommand("SELECT FirstName FROM Students", con))
-                using (SqlDataReader reader = command.ExecuteReader())
+                model.Add(new Student
                 {
-                    while(reader.Read())
-                    {
-                        model.Add(new Student {FirstName = reader["FirstName"].ToString()});
-                    }
-                }
-                con.Close();
+                    FirstName = item["FirstName"].ToString()
+                });
             }
-
-
+    
             return View("Index", model);
         }
 
-        public ActionResult SaveStudent()
-        {
-            string connectionString = GetConnectionString();
 
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                con.Open();
-                string sql = "INSERT INTO Students (FirstName) VALUES (@FirstName)";
-                SqlCommand cmd = new SqlCommand(sql, con);
-                cmd.Parameters.AddWithValue("@FirstName", Request.Form["name"].ToString());
-                cmd.CommandType = CommandType.Text;
-                cmd.ExecuteNonQuery();
-            }
-
-            return RedirectToAction("Index");
-        }
 
         public ActionResult FillStudent()
         {

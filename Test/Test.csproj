@@ -112,6 +112,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Libs\CRUD\ConnectionManager.cs" />
+    <Compile Include="Libs\CRUD\ICrud.cs" />
+    <Compile Include="Libs\CRUD\ISqlCommand.cs" />
+    <Compile Include="Libs\CRUD\ISqlConnection.cs" />
+    <Compile Include="Libs\CRUD\SqlBuilder.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
