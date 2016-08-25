@@ -104,5 +104,41 @@ namespace Test.Controllers
             var isInserted = objStudent.Update(cmd);
             return RedirectToAction("Index");
         }
+        public ActionResult Delete(int id = 0)
+        {
+            var objStudent = new Student();
+            var cmd = new SqlBuilder();
+            cmd.CommandText = "SELECT StudentID, FirstName, Age FROM Students WHERE StudentID = @where";
+            cmd.SqlParams = new List<SqlParameter>()
+            {
+                new SqlParameter("@where", id),
+            };
+            var data = objStudent.Select(cmd);
+            if (data == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                DataRow row = data.Tables[0].Rows[0];
+                Student s = new Student { StudentID = Convert.ToInt32(row["StudentID"]), FirstName = row["FirstName"].ToString(), Age = row.IsNull("Age") ? null : (int?)Convert.ToInt32(row["Age"]) };
+                return View(s);
+            }
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            var objStudent = new Student();
+            var cmd = new SqlBuilder();
+            cmd.CommandText = "DELETE Students WHERE StudentID = @where";
+            cmd.SqlParams = new List<SqlParameter>()
+            {
+                new SqlParameter("@where", id)
+            };
+            var isInserted = objStudent.Delete(cmd);
+            return RedirectToAction("Index");
+        }
     }
 }
