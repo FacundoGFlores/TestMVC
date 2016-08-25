@@ -80,7 +80,7 @@ namespace Test.Controllers
             else
             {
                 DataRow row = data.Tables[0].Rows[0];
-                Student s = new Student { FirstName = row["FirstName"].ToString(), Age = row.IsNull("Age") ? null : (int?)Convert.ToInt32(row["Age"]) };
+                Student s = new Student { StudentID = Convert.ToInt32(row["StudentID"]), FirstName = row["FirstName"].ToString(), Age = row.IsNull("Age") ? null : (int?)Convert.ToInt32(row["Age"]) };
                 return View(s);
             }
         }
@@ -89,15 +89,19 @@ namespace Test.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Student student)
         {
-            //var objStudent = new Student();
-            //var cmd = new SqlBuilder();
-            //cmd.CommandText = "INSERT INTO Students (FirstName, Age) VALUES (@FirstName, @Age)";
-            //cmd.SqlParams = new List<SqlParameter>()
-            //{
-            //    new SqlParameter("@FirstName", student.FirstName),
-            //    new SqlParameter("@Age", student.Age),
-            //};
-            //var isInserted = objStudent.Insert(cmd);
+            var objStudent = new Student();
+            objStudent.StudentID = student.StudentID;
+            objStudent.FirstName = student.FirstName;
+            objStudent.Age = student.Age;
+            var cmd = new SqlBuilder();
+            cmd.CommandText = "UPDATE Students SET FirstName = @FirstName, Age = @Age WHERE StudentID = @where";
+            cmd.SqlParams = new List<SqlParameter>()
+            {
+                new SqlParameter("@FirstName", objStudent.FirstName),
+                new SqlParameter("@Age", objStudent.Age),
+                new SqlParameter("@where", objStudent.StudentID)
+            };
+            var isInserted = objStudent.Update(cmd);
             return RedirectToAction("Index");
         }
     }
