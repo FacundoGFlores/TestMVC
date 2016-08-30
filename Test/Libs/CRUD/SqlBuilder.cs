@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -78,6 +79,36 @@ namespace Test.Libs.CRUD
                 }
             }
             return data;
+        }
+
+        public string JSONData()
+        {
+            var data = new DataSet();
+            using (sqlConnection)
+            {
+                try
+                {
+                    sqlConnection.Open();
+                    using (var sqlCommand = new SqlCommand(CommandText, sqlConnection))
+                    {
+                        sqlCommand.CommandType = !string.IsNullOrWhiteSpace(CommandText) ?
+                            CommandType.Text : CommandType.StoredProcedure;
+                        sqlCommand.CommandText = !string.IsNullOrEmpty(CommandText) ?
+                            CommandText : SPName;
+                        if (SqlParams != null)
+                        {
+                            SqlParams.ForEach(p => sqlCommand.Parameters.Add(p));
+                        };
+                        var adapter = new SqlDataAdapter(sqlCommand);
+                        adapter.Fill(data);
+                    }
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Failed");
+                }
+            }
+            return JsonConvert.SerializeObject(data);
         }
     }
 }

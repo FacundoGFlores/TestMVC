@@ -41,6 +41,14 @@ namespace Test.Controllers
             return View("Index", model);
         }
 
+        public string GetAllStudents()
+        {
+            var objStudent = new Student();
+            var cmd = new SqlBuilder();
+            cmd.CommandText = "SELECT StudentID, FirstName, Age FROM Students";
+            return objStudent.JSONSelect(cmd);
+        }
+
         public ActionResult Create()
         {
             return View();

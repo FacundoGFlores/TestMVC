@@ -31,5 +31,10 @@ namespace Test.Models
         {
             return obj.SelectData();
         }
+
+        public string JSONSelect(ISqlCommand obj)
+        {
+            return obj.JSONData();
+        }
     }
 }

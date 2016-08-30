@@ -153,9 +153,6 @@
     <Content Include="Views\Student\FillStudent.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Student\SaveStudent.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Content\fonts\roboto\Roboto-Bold.eot" />
     <Content Include="Content\fonts\roboto\Roboto-Bold.ttf" />
     <Content Include="Content\fonts\roboto\Roboto-Bold.woff" />

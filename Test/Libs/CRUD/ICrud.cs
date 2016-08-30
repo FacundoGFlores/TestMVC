@@ -13,5 +13,6 @@ namespace Test.Libs.CRUD
         bool Update(T obj);
         bool Delete(T obj);
         DataSet Select(T obj);
+        string JSONSelect(T obj);
     }
 }

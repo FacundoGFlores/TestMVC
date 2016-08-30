@@ -15,5 +15,6 @@ namespace Test.Libs.CRUD
         List<SqlParameter> SqlParams { get; set; }
         bool Run();
         DataSet SelectData();
+        string JSONData();
     }
 }
